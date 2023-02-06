@@ -1,55 +1,16 @@
-import { useDispatch } from "react-redux";
 import { Features } from "../../Components/Features";
-import { Nav } from "../../Nav";
-import { CONNECT_USER, DISCONNECT_USER } from "../../reducers/home";
+import { Footer } from "../../Components/Footer";
+import { Hero } from "../../Components/Hero";
+import { Nav } from "../../Components/Nav";
+import { Main } from "../../Components/Wrappers";
 
 import "./style.scss";
 
-const ButtonConnect = ({ action, children }) => {
-  const dispatch = useDispatch();
-
+export const Home = () => {
   return (
-    <button
-      onClick={() => {
-        action === "connect"
-          ? dispatch({ type: CONNECT_USER })
-          : dispatch({ type: DISCONNECT_USER });
-      }}
-    >
-      {children}
-    </button>
-  );
-};
-
-const Body = ({ children }) => {
-  return <body>{children}</body>;
-};
-const Main = ({ children }) => {
-  return <main>{children}</main>;
-};
-
-const Hero = ({ title, items, footer }) => {
-  return (
-    <div className="hero">
-      <section className="hero-content">
-        <h2 className="sr-only">{title}</h2>
-        {items.map((subtitle) => (
-          <p className="subtitle">{subtitle}</p>
-        ))}
-        <p className="text">{footer}</p>
-      </section>
-    </div>
-  );
-};
-
-const Home = () => {
-  return (
-    <Body>
+    <>
       <Nav
-        logo="/assets/argentBankLogo.png"
-        altImg="Argent Bank Logo"
-        linkUrl="/"
-        title="Argent Bank"
+        items={[{ link: "/sign-in", image: "fa-user-circle", text: "Sign In" }]}
       />
       <Main>
         <Hero
@@ -57,31 +18,32 @@ const Home = () => {
           items={["No fees.", "No minimum deposit.", "High interest rates."]}
           footer="Open a savings account with Argent Bank today!"
         />
+        <Features
+          titre="Features"
+          items={[
+            {
+              img: "/assets/icon-chat.png",
+              alt: "Chat icon",
+              titre: "You are our #1 priority",
+              text: "Need to talk to a representative? You can get in touch through our 24/7 chat or through a phone call in less than 5 minutes.",
+            },
+            {
+              img: "/assets/icon-money.png",
+              alt: "Chat icon",
+              titre: "More savings means higher rates",
+              text: "The more you save with us, the higher your interest rate will be!",
+            },
+            {
+              img: "/assets/icon-security.png",
+              alt: "Chat icon",
+              titre: "Security you can trust",
+              text: "We use top of the line encryption to make sure your data and money is always safe.",
+            },
+          ]}
+        />
       </Main>
-      <Features
-        titre="Features"
-        items={[
-          {
-            img: "/assets/icon-chat.png",
-            alt: "Chat icon",
-            titre: "You are our #1 priority",
-            text: "Need to talk to a representative? You can get in touch through our 24/7 chat or through a phone call in less than 5 minutes.",
-          },
-          {
-            img: "/assets/icon-money.png",
-            alt: "Chat icon",
-            titre: "More savings means higher rates",
-            text: "The more you save with us, the higher your interest rate will be!",
-          },
-          {
-            img: "/assets/icon-security.png",
-            alt: "Chat icon",
-            titre: "Security you can trust",
-            text: "We use top of the line encryption to make sure your data and money is always safe.",
-          }
-        ]}
-      />
-    </Body>
+      <Footer />
+    </>
   );
   // const cnxState = useSelector((state) => state);
 
@@ -98,5 +60,3 @@ const Home = () => {
   //   </div>
   // );
 };
-
-export default Home;
