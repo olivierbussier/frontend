@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from "react-router-dom";
+
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import homeReducer from "./reducers/home";
+
+import { Error } from "./pages/Error";
+import Home from "./pages/Home";
+
+import "./App.scss";
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={homeReducer}>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="*"
+            element={<Error code={404} message="Page introuvable" />}
+          />
+        </Routes>
+      </div>
+    </Provider>
   );
 }
 
