@@ -5,14 +5,15 @@ import { Main } from "../../Components/Wrappers";
 import { Nav } from "../../Components/Nav";
 
 import "./style.scss";
+import { SignInButton } from "../../Components/Input";
 
 export const User = () => {
   return (
     <>
       <Nav
         items={[
-          { link: "/user", image: "fa-user-circle", text: "Tony" },
-          { link: "/", image: "fa-sign-out", text: "Sign Out" },
+          <SignInButton link="/user" image="fa-user-circle" text="Tony" />,
+          <SignInButton link="/" image="fa-sign-out" text="Sign Out" />,
         ]}
       />
       <Main className="main bg-dark">

@@ -1,10 +1,12 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { SignInButton } from "../Input";
 
 import "./style.scss";
 
 export const Nav = ({ items }) => {
-  const cnxState = useSelector((state) => state);
+  const isAuth = useSelector((state) => state.auth.authState !== "logged");
+  const dispatch = useDispatch();
 
   return (
     <nav className="main-nav">
@@ -17,11 +19,18 @@ export const Nav = ({ items }) => {
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <div>
-        {items.map((item, index) =>
-          <Link key={"navitem-"+index} className="main-nav-item" to={item.link}>
-            <i className={"fa " + item.image}></i>
-            {" " + item.text + " "}
-          </Link>
+        {isAuth ? (
+          <SignInButton link="/sign-in" image="fa-user-circle" text="Sign In" />
+        ) : (
+          <>
+            <SignInButton link="/user" image="fa-user-circle" text="User" />
+            <SignInButton
+              link=""
+              onClick={() => dispatch({ type: "auth/logout" })}
+              image="fa-user-circle"
+              text="Logout"
+            />
+          </>
         )}
       </div>
     </nav>

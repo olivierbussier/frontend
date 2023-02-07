@@ -1,6 +1,7 @@
 import { Features } from "../../Components/Features";
 import { Footer } from "../../Components/Footer";
 import { Hero } from "../../Components/Hero";
+import { SignInButton } from "../../Components/Input";
 import { Nav } from "../../Components/Nav";
 import { Main } from "../../Components/Wrappers";
 
@@ -10,7 +11,8 @@ export const Home = () => {
   return (
     <>
       <Nav
-        items={[{ link: "/sign-in", image: "fa-user-circle", text: "Sign In" }]}
+        items={[
+          <SignInButton link="/sign-in" image="fa-user-circle" text="Sign In"/>]}
       />
       <Main>
         <Hero
