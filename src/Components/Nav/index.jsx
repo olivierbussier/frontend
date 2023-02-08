@@ -4,9 +4,11 @@ import { SignInButton } from "../Input";
 
 import "./style.scss";
 
-export const Nav = ({ items }) => {
+export const Nav = () => {
   const isAuth = useSelector((state) => state.auth.authState !== "logged");
   const dispatch = useDispatch();
+  const profile = useSelector(state => state.profile)
+
 
   return (
     <nav className="main-nav">
@@ -23,7 +25,7 @@ export const Nav = ({ items }) => {
           <SignInButton link="/sign-in" image="fa-user-circle" text="Sign In" />
         ) : (
           <>
-            <SignInButton link="/user" image="fa-user-circle" text="User" />
+            <SignInButton link="/user" image="fa-user-circle" text={profile.firstName} />
             <SignInButton
               link=""
               onClick={() => dispatch({ type: "auth/logout" })}

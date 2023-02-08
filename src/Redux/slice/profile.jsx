@@ -16,11 +16,13 @@ export const profileSlice = createSlice({
       state.firstName = action.payload.firstName;
       state.lastName = action.payload.lastName;
       state.email = action.payload.email;
+      state.id = action.payload.id
     },
     reset: (state) => {
       state.firstName = null;
       state.lastName = null;
       state.email = null;
+      state.id = null
     },
   },
 });

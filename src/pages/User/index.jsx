@@ -5,17 +5,13 @@ import { Main } from "../../Components/Wrappers";
 import { Nav } from "../../Components/Nav";
 
 import "./style.scss";
-import { SignInButton } from "../../Components/Input";
+import { useSelector } from "react-redux";
 
 export const User = () => {
+
   return (
     <>
-      <Nav
-        items={[
-          <SignInButton link="/user" image="fa-user-circle" text="Tony" />,
-          <SignInButton link="/" image="fa-sign-out" text="Sign Out" />,
-        ]}
-      />
+      <Nav />
       <Main className="main bg-dark">
         <HeaderUser />
 

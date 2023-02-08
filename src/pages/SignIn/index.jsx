@@ -1,16 +1,18 @@
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { API } from "../../API";
 import { Footer } from "../../Components/Footer";
-import { InputCheckBox, InputText, SignInButton } from "../../Components/Input";
+import { InputCheckBox, InputText } from "../../Components/Input";
 import { Nav } from "../../Components/Nav";
 import { Form, Main } from "../../Components/Wrappers";
 
+import { redirect } from "react-router-dom";
+
 import "./style.scss";
 
-
 export const SignIn = () => {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     // Prevent the browser from reloading the page
@@ -23,15 +25,18 @@ export const SignIn = () => {
 
     // You can pass formData as a fetch body directly:
 
-    const api = new API()
+    const api = new API();
 
-    const res = await api.login(formJson.email, formJson.password)
+    const token = await api.login(formJson.email, formJson.password);
 
-    switch (res.status) {
-
+    switch (token.status) {
       case 200:
         // get Token & change state to loged in
-        dispatch({type: 'auth/login',payload: res.body.token})
+        dispatch({ type: "auth/login", payload: token.body.token });
+        api.setBearer(token.body.token);
+        const profile = await api.profile();
+        dispatch({type: 'profile/set', payload: profile.body})
+        navigate("/user");
         break;
       case 400:
         break;
