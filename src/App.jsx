@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { useCookies } from "react-cookie";
 import { Routes, Route } from "react-router-dom";
@@ -15,7 +15,7 @@ import { Globals } from "./Services/Globals";
 
 import "./App.scss";
 import { setProfile } from "./Services/Redux/slice/profileSlice";
-import { login } from "./Services/Redux/slice/authSlice";
+import { login, logout } from "./Services/Redux/slice/authSlice";
 
 const App = () => {
 
@@ -28,9 +28,26 @@ const App = () => {
 
   let token = null;
 
+  // Handle of close window : if the user wants to close the app BankArgent (close, back, url change)
+  // The we check if remember me is checked, token removing if not
+  useEffect(() => {
+    const handleClose = () => {
+      if (document.visibilityState === 'hidden') {
+        if (cookies.RememberMe !== 'true') {
+            removeCookie('token')
+            dispatch(logout())
+        }
+      }
+    }
+    window.addEventListener('visibilitychange', handleClose);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // If we are not logged and a token is present, try to connect
+  // with this token; set logged state if token ok, and update profile
   if (auth !== "logged") {
     // Not connected state
-    if (cookies.RememberMe === "true") {
+    // if (cookies.RememberMe === "true") {
       token = cookies.token;
       if (token) {
         // not connected state & remember me & token available, test token with api profile
@@ -38,13 +55,12 @@ const App = () => {
             // Read profile success with token: set logged on state and update profile
             dispatch(login(token));
             dispatch(setProfile(response.body));
-            console.log("App : logged...")
           }, (error) => {
             // Something goes wrong, remove token
             removeCookie("token")
         })
       }
-    }
+    // }
   }
 
   return (
