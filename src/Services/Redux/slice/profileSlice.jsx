@@ -8,7 +8,7 @@ export const profileSlice = createSlice({
     email: null,
   },
   reducers: {
-    set: (state, action) => {
+    setProfile: (state, action) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
@@ -18,7 +18,7 @@ export const profileSlice = createSlice({
       state.email = action.payload.email;
       state.id = action.payload.id
     },
-    reset: (state) => {
+    resetProfile: (state) => {
       state.firstName = null;
       state.lastName = null;
       state.email = null;
@@ -26,3 +26,5 @@ export const profileSlice = createSlice({
     },
   },
 });
+
+export const { setProfile, resetProfile } = profileSlice.actions

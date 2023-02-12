@@ -47,18 +47,4 @@ export const Home = () => {
       <Footer />
     </>
   );
-  // const cnxState = useSelector((state) => state);
-
-  // return (
-  //   <div>
-  //     <h1>Home page</h1>
-  //     <div>Etat courant : {cnxState.connected ? "true" : "false"}</div>
-  //     <div>User : {cnxState.user}</div>
-  //     {cnxState.connected ? (
-  //       <ButtonConnect action="disconnect">Se déconnecter</ButtonConnect>
-  //     ) : (
-  //       <ButtonConnect action="connect">Se connecter</ButtonConnect>
-  //     )}
-  //   </div>
-  // );
 };

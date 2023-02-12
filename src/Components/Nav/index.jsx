@@ -1,5 +1,7 @@
+import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../../Services/Redux/slice/authSlice";
 import { SignInButton } from "../Input";
 
 import "./style.scss";
@@ -8,6 +10,7 @@ export const Nav = () => {
   const isAuth = useSelector((state) => state.auth.authState !== "logged");
   const dispatch = useDispatch();
   const profile = useSelector(state => state.profile)
+  const [cookies, setCookie, removeCookie] = useCookies()
 
 
   return (
@@ -22,13 +25,16 @@ export const Nav = () => {
       </Link>
       <div>
         {isAuth ? (
-          <SignInButton link="/sign-in" image="fa-user-circle" text="Sign In" />
+          <SignInButton link="/user" image="fa-user-circle" text="Sign In" />
         ) : (
           <>
             <SignInButton link="/user" image="fa-user-circle" text={profile.firstName} />
             <SignInButton
               link=""
-              onClick={() => dispatch({ type: "auth/logout" })}
+              onClick={() => {
+                removeCookie("token")
+                dispatch(logout())
+              }}
               image="fa-user-circle"
               text="Logout"
             />

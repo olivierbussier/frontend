@@ -5,7 +5,6 @@ import { Main } from "../../Components/Wrappers";
 import { Nav } from "../../Components/Nav";
 
 import "./style.scss";
-import { useSelector } from "react-redux";
 
 export const User = () => {
 

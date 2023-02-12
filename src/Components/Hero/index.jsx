@@ -1,7 +1,6 @@
 import "./style.scss"
 
-export const Hero = ({ title, items, footer }) => {
-    return (
+export const Hero = ({ title, items, footer }) =>
       <div className="hero">
         <section className="hero-content">
           <h2 className="sr-only">{title}</h2>
@@ -11,5 +10,3 @@ export const Hero = ({ title, items, footer }) => {
           <p className="text">{footer}</p>
         </section>
       </div>
-    );
-  };
