@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Globals } from "../Globals";
 import { login, logout, setLocation } from "../Redux/slice/authSlice";
 import { setProfile } from "../Redux/slice/profileSlice";
@@ -17,93 +17,57 @@ import { setProfile } from "../Redux/slice/profileSlice";
  */
 export const ProtectedRoute = ({ children }) => {
   const auth = useSelector((state) => state.auth.authState);
+  const loc = useSelector((state) => state.auth.requiredPage);
   const dispatch = useDispatch();
   const ctx = useContext(Globals);
   const api = ctx.getApi();
   const location = useLocation()
+  // eslint-disable-next-line no-unused-vars
   const [cookies, setCookie, removeCookie] = useCookies();
   let loginPage = false;
+  const navigate = useNavigate();
 
-  /**
-   * How "Remember Me" works ?
-   * On start of signing page, use cookies to get remember me current state
-   *
-   * login state ?
-   *  -> not logged :
-   *    rememberme state ?
-   *      -> checked:
-   *        jwt token present in cookies ?
-   *          -> true :
-   *            get token from cookies
-   *            try to get user profile with this token
-   *            -> Success ?
-   *              set connected state
-   *            -> Failure ?
-   *              go to signin page
-   *          -> false :
-   *              go to signin page
-   *      -> unchecked :
-   *        go to signin page
-   *  -> Logged :
-   *    try to get user profile with current token
-   *    -> success :
-   *      set connected state
-   *    -> failure :
-   *      go to signin page
-   *
-   */
+  let token=null
 
-  const goApi = (bearer = null, onSuccess, onError) => {
-
-    if (bearer)
-      api.setBearer(token);
-
-    api.profile()
-      .then((response) => {
-        if (response.status === 200) {
-          onSuccess(response)
-        } else
-          onError(response);
-        // Navigate to required page : do nothing
-      })
-      .catch((error) => {
-        onError(error)
-      });
-
-  }
-  let token = null;
+  console.log("ProtectedRoute:auth=", auth)
 
   if (auth !== "logged") {
-    // Not connected state
     if (cookies.RememberMe === "true") {
       token = cookies.token;
       if (token) {
+        console.log("ProtectedRoute:token=", token)
         // not connected state & remember me & token available, test token with api profile
-        goApi(token, (response) => {
+        api.testConnexion(token, (response) => {
             // Read profile success with token: set logged on state and update profile
+            console.log("ProtectedRoute:testcnx ok")
             dispatch(login(token));
             dispatch(setProfile(response.body));
+            console.log("App : logged...")
           }, (error) => {
-            // Something goes wrong, disconnect and remove token
-            dispatch(logout());
-            removeCookie("token")
+            console.log("ProtectedRoute:testcnx KO")
+            // Something goes wrong, remove token
+            // Not connected state
+            dispatch(setLocation(location))
             loginPage = true
+            removeCookie("token")
         })
       } else {
-        // Not connected state & No token available
-        // memorize the required location and go to sin-in page
         dispatch(setLocation(location))
         loginPage = true
       }
     } else {
-      // Not connected state & no remember me checked
-      // memorize the required location and go to sin-in page
       dispatch(setLocation(location))
       loginPage = true
     }
   } else {
     // Connected state, try to read profile with current state information
-    goApi(null,(response) => {
+    api.testConnexion(null,(response) => {
+      console.log("ProtectedRoute:loc=", loc)
+      if (loc !== null) {
+        dispatch(setLocation(null))
+        navigate(loc);
+      }
+      loginPage = false
       // Everything seems good, nothing particular to do
 
     }, (error) => {
@@ -114,7 +78,7 @@ export const ProtectedRoute = ({ children }) => {
       loginPage = true
     })
   }
-
+  console.log("loginPage=", loginPage)
   return loginPage ? <Navigate to="/sign-in" replace /> : children
 };
 

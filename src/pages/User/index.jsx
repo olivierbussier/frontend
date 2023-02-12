@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+
 import { Account } from "../../Components/Account";
 import { Footer } from "../../Components/Footer";
 import { HeaderUser } from "../../Components/HeaderUser";
@@ -8,11 +10,13 @@ import "./style.scss";
 
 export const User = () => {
 
+  const profile = useSelector((state) => state.profile);
+
   return (
     <>
       <Nav />
       <Main className="main bg-dark">
-        <HeaderUser />
+        <HeaderUser firstName={profile.firstName} lastName={profile.lastName}/>
 
         <h2 className="sr-only">Accounts</h2>
 

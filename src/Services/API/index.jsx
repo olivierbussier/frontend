@@ -37,7 +37,27 @@ export class API {
    */
   login = (email, password) =>
     this.fetchAPI(`user/login`, { email: email, password: password }, "POST");
-    
+
   profile = () =>
     this.fetchAPI(`user/profile`, {}, "POST");
+
+  testConnexion = (bearer = null, onSuccess, onError) => {
+
+    if (bearer)
+      this.setBearer(bearer);
+
+    this.profile()
+      .then((response) => {
+        if (response.status === 200) {
+          onSuccess(response)
+        } else
+          onError(response);
+        // Navigate to required page : do nothing
+      })
+      .catch((error) => {
+        onError(error)
+      });
+
+  }
+
 }

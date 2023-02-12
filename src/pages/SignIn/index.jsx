@@ -22,12 +22,9 @@ export const SignIn = () => {
   const [cookies, setCookie, removeCookie] = useCookies()
 
   useEffect(() => {
-    if (rememberMe)
-      setCookie('RememberMe', true)
-    else
-      removeCookie('RememberMe')
+    setRememberMe(cookies.RememberMe === 'true')
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rememberMe])
+  }, [])
 
   const handleSubmit = async (e) => {
     // Prevent the browser from reloading the page
@@ -39,13 +36,20 @@ export const SignIn = () => {
     // Send API endpoint
     const token = await api.login(formJson.email, formJson.password);
 
+    if (rememberMe)
+      setCookie('RememberMe', true)
+    else
+      removeCookie('RememberMe')
+
     switch (token.status) {
       case 200:
         // get Token & change state to loged in
         dispatch(login(token.body.token));
         api.setBearer(token.body.token);
+        // Get profile info
         const profile = await api.profile();
         dispatch(setProfile(profile.body));
+
         setCookie("token", token.body.token)
         // ctx.setApi(api);
         if (newLoc)
@@ -71,7 +75,7 @@ export const SignIn = () => {
           <Form onSubmit={handleSubmit}>
             <InputText name="email" text="Mail" type="text" />
             <InputText name="password" text="Password" type="password" />
-            <InputCheckBox name="remember-me" text="Remember me" onChange={(e) => setRememberMe(e.target.checked)} />
+            <InputCheckBox name="remember-me" text="Remember me" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
             <button type="submit" className="sign-in-button">
               Sign In
             </button>

@@ -8,9 +8,9 @@ export const InputText = ({ name, text, type, className = "input-wrapper" }) =>
       <input type={type} id={"input-" + name} name={name} />
     </div>
 
-export const InputCheckBox = ({ name, text, type, className = "input-remember" , onChange=null}) =>
+export const InputCheckBox = ({ name, text, checked, type, className = "input-remember" , onChange=null}) =>
     <div className={className}>
-      <input type="checkbox" id={"checkbox-" + name} name={name} onChange={onChange}/>
+      <input type="checkbox" id={"checkbox-" + name} checked={checked} name={name} onChange={onChange}/>
       <label htmlFor={"input-" + name}>{text}</label>
     </div>
 
