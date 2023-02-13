@@ -12,6 +12,12 @@ import { setProfile } from "../../Services/Redux/slice/profileSlice";
 
 import "./style.scss";
 
+/**
+ * This page is the login page of the application. The main state
+ * is managed by redux state
+ *
+ * @returns {JSX.Element}
+ */
 export const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -59,10 +65,8 @@ export const SignIn = () => {
         else
           navigate('/');
         break;
-      case 400:
-        break;
       default:
-        // dispatch(apiError({code:500, message:token.status}))
+        dispatch(apiError({code:token.status, message:token.message}))
         break;
     }
     // Or you can work with it as a plain object:

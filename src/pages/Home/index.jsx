@@ -7,6 +7,12 @@ import { Main } from "../../Components/Wrappers";
 
 import "./style.scss";
 
+/**
+ * This is the home page of the application. This page is reachable without
+ * authentication
+ *
+ * @returns {JSX.Element}
+ */
 export const Home = () => {
   return (
     <>
