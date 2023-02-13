@@ -7,7 +7,7 @@ import { InputCheckBox, InputText } from "../../Components/Input";
 import { Nav } from "../../Components/Nav";
 import { Form, Main } from "../../Components/Wrappers";
 import { Globals } from "../../Services/Globals";
-import { login } from "../../Services/Redux/slice/authSlice";
+import { apiError, login } from "../../Services/Redux/slice/authSlice";
 import { setProfile } from "../../Services/Redux/slice/profileSlice";
 
 import "./style.scss";
@@ -34,7 +34,9 @@ export const SignIn = () => {
     const formData = new FormData(form);
     const formJson = Object.fromEntries(formData.entries());
     // Send API endpoint
-    const token = await api.login(formJson.email, formJson.password);
+    const token = await api.login(formJson.email, formJson.password).catch((error) => {
+      dispatch(apiError({code:500, message:error.message}))
+    })
 
     if (rememberMe)
       setCookie('RememberMe', true)
@@ -60,9 +62,9 @@ export const SignIn = () => {
       case 400:
         break;
       default:
+        // dispatch(apiError({code:500, message:token.status}))
         break;
     }
-
     // Or you can work with it as a plain object:
   };
   return (

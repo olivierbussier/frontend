@@ -1,5 +1,16 @@
+import PropTypes from "prop-types";
+
 import "./style.scss";
 
+/**
+ * This component is used to display features of the bank
+ * The feature list is given by array items
+ *
+ * @param {object} props
+ * @param {string} props.titre
+ * @param {array} props.items
+ * @returns {JSX.Element}
+ */
 export const Features = ({ titre, items }) => {
   return (
     <section className="features">
@@ -16,3 +27,15 @@ export const Features = ({ titre, items }) => {
     </section>
   );
 };
+
+Features.propTypes = {
+  titre: PropTypes.string.isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      img: PropTypes.string.isRequired,
+      alt: PropTypes.string.isRequired,
+      titre: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired
+    }).isRequired
+  ).isRequired
+}

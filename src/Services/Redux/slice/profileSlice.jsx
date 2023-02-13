@@ -24,7 +24,11 @@ export const profileSlice = createSlice({
       state.email = null;
       state.id = null
     },
+    setName: (state, action) => {
+      state.firstName = action.payload.firstName;
+      state.lastName = action.payload.lastName;
+    }
   },
 });
 
-export const { setProfile, resetProfile } = profileSlice.actions
+export const { setProfile, resetProfile, setName } = profileSlice.actions

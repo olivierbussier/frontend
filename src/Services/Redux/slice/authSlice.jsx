@@ -5,7 +5,8 @@ export const authSlice = createSlice({
   initialState: {
     authState: "non-logged",
     token: null,
-    requiredPage: null
+    requiredPage: null,
+    error: null,
   },
   reducers: {
     login: (state, action) => {
@@ -17,13 +18,17 @@ export const authSlice = createSlice({
       state.token = action.payload;
     },
     logout: (state) => {
-      state.authState = "non-logged"
+      state.authState = "non-logged";
       state.token = null;
     },
     setLocation: (state, action) => {
-        state.requiredPage = action.payload
-    }
+      state.requiredPage = action.payload;
+    },
+    apiError: (state, action) => {
+      state.authState = "error";
+      state.error = action.payload;
+    },
   },
 });
 
-export const { login, logout, setLocation } = authSlice.actions
+export const { login, logout, setLocation, apiError } = authSlice.actions;

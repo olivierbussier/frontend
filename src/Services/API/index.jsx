@@ -41,6 +41,9 @@ export class API {
   profile = () =>
     this.fetchAPI(`user/profile`, {}, "POST");
 
+  updateProfile = (firstName, lastName) =>
+    this.fetchAPI(`user/profile`, { firstName: firstName, lastName: lastName }, "PUT");
+
   testConnexion = (bearer = null, onSuccess, onError) => {
 
     if (bearer)
@@ -48,10 +51,7 @@ export class API {
 
     this.profile()
       .then((response) => {
-        if (response.status === 200) {
           onSuccess(response)
-        } else
-          onError(response);
         // Navigate to required page : do nothing
       })
       .catch((error) => {
@@ -59,5 +59,4 @@ export class API {
       });
 
   }
-
 }
