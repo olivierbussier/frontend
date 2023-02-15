@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# Repository for the 13th prject of Openclassroom react front-end learning
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+im of this project is to :
+- validate users authentication management using redux & API
+- validate the construction of api's to answer specific needs
 
-## Available Scripts
+there is two repositories for this project
+- backend, located to : https://github.com/olivierbussier/ocr_p13_bankApi_backend
+- frontend, located to : https://github.com/olivierbussier/ocr_p13_BankApi_frontend
 
-In the project directory, you can run:
+The api specifications will be done using swagger standart yaml file. This file
+could be found on front end repository at : https://github.com/olivierbussier/ocr_p13_BankApi_frontend/blob/master/src/Services/API/swagger.yaml
 
-### `yarn start`
+## Back-end
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Argent Bank uses the following tech stack:
 
-### `yarn test`
+- [Node.js v12](https://nodejs.org/en/)
+- [MongoDB Community Server](https://www.mongodb.com/try/download/community)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Regarding mondoDB, I personally use a docker container with docker's image `mongo:latest`. This image comes with mongo expres allowing database admin and browsing.
 
-### `yarn build`
+This image has been setup with the following dockerfile :
+```
+# Not use user/password credentials
+version: '3.1'
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+services:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - database:/data/db
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+    - 27017:27017
+    expose:
+    - 27017
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+#      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
 
-### `yarn eject`
+volumes:
+  database:
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Instructions
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The nodeJs server could be started using the command
+"`npm run dev:server`"
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+In order to be operational, database must be populated with the command
+"`npm run populate-db`"
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Follow readme on the backend repository for more instructions
 
-## Learn More
+## Front-end
+### Available Scripts
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Standards scripts:
+- `yarn start` : Runs the app in the development mode.
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser. The page will reload when you make changes. You may also see any lint errors in the console.
+- `yarn build` : Builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes. Your app is ready to be deployed! See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
