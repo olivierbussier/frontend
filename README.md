@@ -68,6 +68,9 @@ In order to be operational, database must be populated with the command
 Follow readme on the backend repository for more instructions
 
 ## Front-end
+
+Clone repository, install dependencies with `yarn` command
+
 ### Available Scripts
 
 Standards scripts:
