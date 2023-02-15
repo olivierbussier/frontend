@@ -6,6 +6,12 @@ import { Nav } from "../../Components/Nav";
 
 import "./style.scss";
 
+/**
+ * This page is the main user page. Reachable only after successfull authentication
+ * For this stage the page is static and the corresponding api's are not implemented
+ *
+ * @returns
+ */
 export const User = () => {
 
   return (

@@ -16,6 +16,13 @@ import { apiError, login, logout } from "./Services/Redux/slice/authSlice";
 
 import "./App.scss";
 
+/**
+ * This is the main entry point of the application.
+ * Router, redux and cookies initialisation (providers) are done
+ * in ./index.jsx
+ *
+ * @returns {JSX.Element}
+ */
 const App = () => {
   const ctx = useContext(Globals);
   const api = ctx.getApi();

@@ -258,6 +258,10 @@ paths:
         properties:
           deleteNote:
             type: boolean
+          deleteCategory:
+            type: boolean
+          deleteType:
+            type: boolean
       responses:
         '204':
           description: Transaction delete successully

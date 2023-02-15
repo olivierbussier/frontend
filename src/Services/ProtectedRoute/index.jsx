@@ -1,8 +1,12 @@
 import { useContext } from "react";
+import PropTypes from "prop-types";
+
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
+
 import { Globals } from "../Globals";
+
 import { apiError, login, logout, setLocation } from "../Redux/slice/authSlice";
 import { setProfile } from "../Redux/slice/profileSlice";
 
@@ -91,6 +95,6 @@ export const ProtectedRoute = ({ children }) => {
   return loginPage ? <Navigate to="/sign-in" replace /> : children;
 };
 
-// handleCheckApi.propTypes = {
-//   children: propTypes.
-// }
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired
+}

@@ -1,7 +1,9 @@
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
 import { logout } from "../../Services/Redux/slice/authSlice";
+
 import { SignInButton } from "../Input";
 
 import "./style.scss";
