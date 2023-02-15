@@ -1,6 +1,6 @@
 # Repository for the 13th prject of Openclassroom react front-end learning
 
-im of this project is to :
+The aim of this project is to :
 - validate users authentication management using redux & API
 - validate the construction of api's to answer specific needs
 
