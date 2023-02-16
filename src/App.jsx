@@ -34,21 +34,6 @@ const App = () => {
 
   let token = null;
 
-  // Handle of close window : if the user wants to close the app BankArgent (close, back, url change)
-  // The we check if remember me is checked, token removing if not
-  useEffect(() => {
-    const handleClose = () => {
-      if (document.visibilityState === "hidden") {
-        if (cookies.RememberMe !== "true") {
-          removeCookie("token");
-          dispatch(logout());
-        }
-      }
-    };
-    window.addEventListener("visibilitychange", handleClose);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // If we are not logged and a token is present, try to connect
   // with this token; set logged state if token ok, and update profile
   if (auth !== "logged") {

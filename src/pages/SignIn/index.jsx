@@ -31,7 +31,7 @@ export const SignIn = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
 
   useEffect(() => {
-    setRememberMe(cookies.RememberMe === "true");
+    setRememberMe(cookies.token);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -54,9 +54,8 @@ export const SignIn = () => {
       .catch((error) => {
         dispatch(apiError({ code: 500, message: error.message }));
       });
-
-    if (rememberMe) setCookie("RememberMe", true);
-    else removeCookie("RememberMe");
+    const date = new Date();
+    const datePlusOneMonth = new Date(date.setMonth(date.getMonth() + 1));
 
     switch (token.status) {
       case 200:
@@ -66,11 +65,21 @@ export const SignIn = () => {
         // Get profile info
         const profile = await api.profile();
         dispatch(setProfile(profile.body));
-
-        setCookie("token", token.body.token);
+        // 1 Month cookie validity
+        // In production, when using https, Secure mode of Cookies options must be set
+        // in order to avoid cookies sending on http
+        if (rememberMe) {
+          setCookie("token", token.body.token, {
+            expires: datePlusOneMonth,
+            // secure: true
+          });
+        }
         // ctx.setApi(api);
-        if (newLoc) navigate(newLoc.pathname);
-        else navigate("/");
+        if (newLoc) {
+          navigate(newLoc.pathname);
+        } else {
+          navigate("/");
+        }
         break;
       default:
         dispatch(apiError({ code: token.status, message: token.message }));
